@@ -1,0 +1,16 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "@PSR12": true,
+    "concat_space": {
+      "spacing": "one"
+    },
+    "new_with_braces": {
+      "anonymous_class": false,
+      "named_class": false
+    },
+    "single_line_empty_body": false,
+    "array_indentation": false
+  },
+  "lineEnding": "\r\n"
+}

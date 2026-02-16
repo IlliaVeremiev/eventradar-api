@@ -16,3 +16,13 @@ indent_size = 2
 
 [compose.yaml]
 indent_size = 4
+[{*.json,.editorconfig}]
+indent_size = 2
+
+[composer.json]
+indent_size = 4
+
+[{*.ctp,*.hphp,*.inc,*.module,*.php,*.php4,*.php5,*.phtml}]
+ij_php_keep_rparen_and_lbrace_on_one_line = true
+ij_php_align_multiline_parameters = false
+ij_php_space_before_short_closure_left_parenthesis = true
