@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'firecrawl' => [
+        'url' => env('FIRECRAWL_URL'),
+    ],
+
+    'searxng' => [
+        'url' => env('SEARXNG_URL'),
+    ],
+
 ];
