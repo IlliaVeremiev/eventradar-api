@@ -16,6 +16,7 @@ indent_size = 2
 
 [compose.yaml]
 indent_size = 4
+
 [{*.json,.editorconfig}]
 indent_size = 2
 
@@ -26,3 +27,7 @@ indent_size = 4
 ij_php_keep_rparen_and_lbrace_on_one_line = true
 ij_php_align_multiline_parameters = false
 ij_php_space_before_short_closure_left_parenthesis = true
+ij_php_space_after_type_cast = true
+ij_php_keep_simple_classes_in_one_line = true
+ij_php_keep_simple_methods_in_one_line = true
+ij_php_spaces_around_pipe_in_union_type = false
