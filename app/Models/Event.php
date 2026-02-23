@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property string $id
@@ -18,39 +22,39 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $state
  * @property string|null $country_code
  * @property string|null $postal_code
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EventSession> $sessions
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, \App\Models\EventSession> $sessions
  * @property-read int|null $sessions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EventSource> $sources
+ * @property-read Collection<int, \App\Models\EventSource> $sources
  * @property-read int|null $sources_count
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereCountryCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event wherePostalCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereState($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereTimezone($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereVenueName($value)
+ * @method static Builder<static>|Event newModelQuery()
+ * @method static Builder<static>|Event newQuery()
+ * @method static Builder<static>|Event query()
+ * @method static Builder<static>|Event whereAddress($value)
+ * @method static Builder<static>|Event whereCity($value)
+ * @method static Builder<static>|Event whereCountryCode($value)
+ * @method static Builder<static>|Event whereCreatedAt($value)
+ * @method static Builder<static>|Event whereDescription($value)
+ * @method static Builder<static>|Event whereId($value)
+ * @method static Builder<static>|Event whereImage($value)
+ * @method static Builder<static>|Event wherePostalCode($value)
+ * @method static Builder<static>|Event whereState($value)
+ * @method static Builder<static>|Event whereTimezone($value)
+ * @method static Builder<static>|Event whereTitle($value)
+ * @method static Builder<static>|Event whereUpdatedAt($value)
+ * @method static Builder<static>|Event whereVenueName($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Event extends Model
 {
     use HasUuids;
 
-    protected $keyType = 'string';
-
     public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
         'title',

@@ -13,6 +13,7 @@ use App\Repositories\EventSessionRepository;
 use App\Repositories\EventSourceRepository;
 use App\Services\EventService;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Str;
 
 class EventServiceImpl implements EventService
@@ -72,5 +73,15 @@ class EventServiceImpl implements EventService
         $session->end_time = $sessionData->endTime ? Carbon::parse($sessionData->endTime) : null;
 
         return $this->eventSessionRepository->save($session);
+    }
+
+    public function search(): Collection
+    {
+        return $this->eventRepository->findAll();
+    }
+
+    public function getById(string $eventId): Event
+    {
+        return $this->eventRepository->getById($eventId);
     }
 }

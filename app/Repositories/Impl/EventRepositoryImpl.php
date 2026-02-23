@@ -5,6 +5,7 @@ namespace App\Repositories\Impl;
 use App\Models\Event;
 use App\Repositories\EventRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class EventRepositoryImpl implements EventRepository
 {
@@ -21,5 +22,15 @@ class EventRepositoryImpl implements EventRepository
             ->where('title', $title)
             ->whereDate('sessions.date', $sessionDate)
             ->first();
+    }
+
+    public function findAll(): Collection
+    {
+        return Event::all();
+    }
+
+    public function getById(string $id): Event
+    {
+        return Event::findOrFail($id);
     }
 }

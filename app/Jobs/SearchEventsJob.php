@@ -18,7 +18,7 @@ class SearchEventsJob implements ShouldQueue
 
     public function handle(SearchService $searchService): void
     {
-        $results = $searchService->searchEventUrls($this->location)->take($this->limit);
+        $results = $searchService->searchEventUrls($this->location)->skip($this->limit)->take($this->limit);
         foreach ($results as $result) {
             ScanEventJob::dispatch($result);
         }
