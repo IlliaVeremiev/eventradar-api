@@ -4,8 +4,9 @@ namespace App\Repositories\Impl;
 
 use App\Models\Event;
 use App\Repositories\EventRepository;
+use App\Utils\Pageable;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventRepositoryImpl implements EventRepository
 {
@@ -24,9 +25,9 @@ class EventRepositoryImpl implements EventRepository
             ->first();
     }
 
-    public function findAll(): Collection
+    public function findAll(Pageable $pageable): LengthAwarePaginator
     {
-        return Event::all();
+        return Event::query()->paginate(perPage: $pageable->getSize(), page: $pageable->getPage());
     }
 
     public function getById(string $id): Event

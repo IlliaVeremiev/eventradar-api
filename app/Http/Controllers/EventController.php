@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventsSearchRequest;
 use App\Http\Resources\EventCollectionResource;
 use App\Http\Resources\EventResource;
 use App\Services\EventService;
+use App\Utils\Page;
 
 class EventController extends Controller
 {
@@ -13,11 +15,11 @@ class EventController extends Controller
     ) {
     }
 
-    public function search()
+    public function search(EventsSearchRequest $request)
     {
-        $events = $this->eventService->search();
+        $events = $this->eventService->search($request);
 
-        return response()->json(EventCollectionResource::collection($events));
+        return response()->json(Page::make($events, EventCollectionResource::class));
     }
 
     public function getById(string $eventId)

@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Event;
+use App\Utils\Pageable;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface EventRepository
 {
@@ -12,8 +13,8 @@ interface EventRepository
 
     public function findByNameAndSessionDate(string $title, Carbon $sessionDate): ?Event;
 
-    /** @return Collection<Event> */
-    public function findAll(): Collection;
+    /** @return LengthAwarePaginator<Event> */
+    public function findAll(Pageable $pageable): LengthAwarePaginator;
 
     public function getById(string $id): Event;
 }

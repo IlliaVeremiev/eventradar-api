@@ -5,6 +5,7 @@ namespace App\Services\Impl;
 use App\Dto\Search\EventExtractionResult;
 use App\Dto\Search\EventExtractionSession;
 use App\Dto\Search\EventSearchResult;
+use App\Http\Requests\EventsSearchRequest;
 use App\Models\Event;
 use App\Models\EventSession;
 use App\Models\EventSource;
@@ -13,7 +14,7 @@ use App\Repositories\EventSessionRepository;
 use App\Repositories\EventSourceRepository;
 use App\Services\EventService;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Str;
 
 class EventServiceImpl implements EventService
@@ -75,9 +76,9 @@ class EventServiceImpl implements EventService
         return $this->eventSessionRepository->save($session);
     }
 
-    public function search(): Collection
+    public function search(EventsSearchRequest $request): LengthAwarePaginator
     {
-        return $this->eventRepository->findAll();
+        return $this->eventRepository->findAll($request);
     }
 
     public function getById(string $eventId): Event
