@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Dto\Search\EventsSearchDto;
 use App\Models\Event;
 use App\Utils\Pageable;
 use Carbon\Carbon;
@@ -14,7 +15,7 @@ interface EventRepository
     public function findByNameAndSessionDate(string $title, Carbon $sessionDate): ?Event;
 
     /** @return LengthAwarePaginator<Event> */
-    public function findAll(Pageable $pageable): LengthAwarePaginator;
+    public function findAll(EventsSearchDto $params, Pageable $pageable): LengthAwarePaginator;
 
     public function getById(string $id): Event;
 }

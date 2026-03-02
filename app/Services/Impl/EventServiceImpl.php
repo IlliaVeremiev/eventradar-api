@@ -78,7 +78,7 @@ class EventServiceImpl implements EventService
 
     public function search(EventsSearchRequest $request): LengthAwarePaginator
     {
-        return $this->eventRepository->findAll($request);
+        return $this->eventRepository->findAll($request->toDto(), $request);
     }
 
     public function getById(string $eventId): Event
