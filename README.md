@@ -1,59 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# EventRadar API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Backend for [EventRadar UI](https://github.com/IlliaVeremiev/eventradar-ui). Discovers and serves local events by
+combining web search, AI-powered content extraction, and a REST API.
 
-## About Laravel
+## How it works
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. **Search** — [SearXNG](https://searxng.github.io/searxng/) finds relevant event URLs for a given location
+2. **Scrape** — [Firecrawl](https://www.firecrawl.dev/) fetches each page and converts it to clean Markdown
+3. **Extract** — An LLM (Gemini via [Prism PHP](https://prism.echolabs.dev/)) parses the Markdown and pulls out
+   structured event data
+4. **Store** — Events are persisted in PostgreSQL and served through a paginated REST API
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **PHP 8.5** / **Laravel 12**
+- **PostgreSQL** — primary database
+- **Redis** — queue, cache, sessions
+- **Prism PHP** — LLM abstraction layer (Gemini)
+- **Firecrawl** — web scraping to Markdown
+- **SearXNG** — self-hosted meta search engine
+- **Filament** — admin panel
+- **Pest** — testing
 
-## Learning Laravel
+## API Endpoints
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Method | Endpoint           | Description                        |
+|--------|--------------------|------------------------------------|
+| GET    | `/api/events`      | Search & filter events (paginated) |
+| GET    | `/api/events/{id}` | Get event by ID                    |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Query parameters for `/api/events`: `query`, `place`, `date`, `future`, `page`, `size`
 
-## Laravel Sponsors
+## Getting Started
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Prerequisites
 
-### Premium Partners
+- PHP 8.5+
+- Composer
+- Docker (for PostgreSQL and Redis)
+- A running SearXNG instance
+- A running Firecrawl instance
+- Gemini API key
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 1. Clone & install
 
-## Contributing
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. Configure environment
 
-## Code of Conduct
+Edit `.env` and fill in the required values:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```env
+# Database
+DB_DATABASE=eventradar
+DB_USERNAME=eventradar
+DB_PASSWORD=eventradar
 
-## Security Vulnerabilities
+# Redis
+REDIS_PASSWORD=null
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# External services
+SEARXNG_URL=http://localhost:8080
+FIRECRAWL_URL=http://localhost:3002
+GEMINI_API_KEY=your_key_here
+```
 
-## License
+### 3. Start the database and Redis
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+docker compose up -d
+```
+
+This starts PostgreSQL 18 and Redis 8 with the credentials from your `.env`.
+
+### 4. Run migrations
+
+```bash
+php artisan migrate
+```
+
+### 5. Start the dev server
+
+```bash
+composer dev
+```
+
+This runs the Laravel server, queue worker, and Vite concurrently.
