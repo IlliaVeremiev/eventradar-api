@@ -21,6 +21,7 @@ use App\Services\Impl\LlmServiceImpl;
 use App\Services\Impl\SearchServiceImpl;
 use App\Services\LlmService;
 use App\Services\SearchService;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -43,5 +44,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Fix mixed content: https://dev.to/doozieakshay/stop-the-mix-up-how-to-force-https-in-laravel-and-fix-your-ajax-woes-47n3
+        if (! app()->environment(['local'])) {
+            URL::forceScheme('https');
+        }
     }
 }
