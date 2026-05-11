@@ -43,4 +43,8 @@ return [
         'url' => env('SEARXNG_URL'),
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+    ],
+
 ];

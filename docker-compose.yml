@@ -8,8 +8,10 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     restart: unless-stopped
+    ports:
+      - "5432:5432"
 
   redis:
     image: redis:8-alpine
@@ -19,7 +21,19 @@ services:
     volumes:
       - redis_data:/data
     restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  searxng:
+    image: searxng/searxng:latest
+    volumes:
+      - searxng_data:/etc/searxng
+      - ./searxng/settings.yml:/etc/searxng/settings.yml
+    restart: unless-stopped
+    ports:
+      - "8888:8080"
 
 volumes:
   postgres_data:
   redis_data:
+  searxng_data:

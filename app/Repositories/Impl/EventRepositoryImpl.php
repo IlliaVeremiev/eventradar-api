@@ -59,6 +59,7 @@ class EventRepositoryImpl implements EventRepository
                 });
             });
         }
+
         return $query->paginate(perPage: $pageable->getSize(), page: $pageable->getPage());
     }
 

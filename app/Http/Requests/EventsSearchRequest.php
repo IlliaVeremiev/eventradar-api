@@ -17,7 +17,6 @@ class EventsSearchRequest extends PageableRequest
         ];
     }
 
-
     public function toDto(): EventsSearchDto
     {
         return EventsSearchDto::from($this->all());

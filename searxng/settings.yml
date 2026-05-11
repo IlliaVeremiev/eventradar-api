@@ -1,0 +1,9 @@
+use_default_settings: true
+
+server:
+  secret_key: "eventradar_searxng_dev_secret_2026"
+
+search:
+  formats:
+    - html
+    - json
